@@ -1,0 +1,30 @@
+
+.page {
+    background-color: #AEDBBF;
+    min-height: calc(100vh - 80px);
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    font-family: Arial;
+}
+
+.backBtn {
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+.title {
+    text-align: center;
+    font-weight: 700;
+    color: #2F3E2D;
+    margin-top: 10px;
+}
+
+.text {
+    margin-top: 30px;
+    text-align: center;
+    font-size: 17px;
+    line-height: 1.7;
+    color: #2F3E2D;
+    padding: 0 10px;
+}

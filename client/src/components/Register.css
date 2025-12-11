@@ -1,0 +1,83 @@
+.container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #AEDBBF;
+  padding: 1rem;
+  box-sizing: border-box;
+  min-height: 100vh;
+}
+
+.registerCard {
+  width: 100%;
+  max-width: 400px;
+  padding: 2rem;
+  border-radius: 8px;
+  box-sizing: border-box;
+  color: #697F61;
+  background-color: #fff;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.registerTitle {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  color: #697F61;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.input {
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-sizing: border-box;
+  background-color: white;
+  color: #697F61;
+}
+
+.submitButton {
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1rem;
+  background-color: white;
+  color: #697F61;
+  border: 1px solid #697F61;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.submitButton:hover {
+  background-color: #697F61;
+  color: white;
+}
+
+.message {
+  color: red;
+  text-align: center;
+  margin-top: 0.5rem;
+}
+
+.loginText {
+  text-align: center;
+  margin-top: 1rem;
+  color: #697F61;
+  font-size: 0.9rem;
+}
+
+.link {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: 500;
+}

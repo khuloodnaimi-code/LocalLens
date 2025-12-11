@@ -1,0 +1,55 @@
+.page {
+  background-color: #AEDBBF;
+  min-height: calc(100vh - 80px);
+  padding: 20px;
+  font-family: Arial;
+}
+
+.backBtn {
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+.title {
+  text-align: center;
+  font-size: 28px;
+  color: #2F3E2D;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.form {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.label {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  margin-top: 12px;
+  display: block;
+}
+
+.input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 15px;
+}
+
+.addBtn {
+  margin-top: 20px;
+  width: 100%;
+  padding: 14px;
+  border-radius: 10px;
+  border: none;
+  background-color: #ffffff;
+  font-weight: 700;
+  font-size: 18px;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}

@@ -1,0 +1,40 @@
+.page {
+  background-color: #AEDBBF;
+  min-height: calc(100vh - 80px);
+  padding: 20px;
+  font-family: Arial;
+}
+
+.backRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.title {
+  font-size: 24px;
+  color: #2F3E2D;
+  font-weight: 700;
+}
+
+.faqBox {
+  background-color: #C1E3CE;
+  padding: 18px;
+  border-radius: 16px;
+  margin-bottom: 20px;
+}
+
+.question {
+  font-size: 17px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: #2F3E2D;
+}
+
+.answer {
+  font-size: 15px;
+  line-height: 1.6;
+  color: #2F3E2D;
+  padding-left: 10px;
+}
