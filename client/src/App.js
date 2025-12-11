@@ -24,6 +24,7 @@ import Ladiesbeach from './components/Ladiesbeach';
 import Snowoman from './components/Snowoman';
 import Videos from './components/Videos';
 import AdminProfileUpdate from "./components/AdminProfileUpdate";
+import AdminDashboard from './components/AdminDashboard';
 
 function App() {
   const email = useSelector((state) => state.users.user?.email);
@@ -57,13 +58,14 @@ function App() {
             <Route path="/faq" element={<Faq />} />
             <Route path="/trips-crud" element={<TripsCrud />} />
             <Route path="/add-trip" element={<AddTrip />} />
-            <Route path="/update-trip" element={<UpdateTrip />} />
+            <Route path="/update-trip/:id" element={<UpdateTrip />} />
             <Route path="/ages-museum" element={<AgesTrip />} />
             <Route path="/Hootacave" element={ <Hootacave />  } />
             <Route path="/Ladiesbeach" element={<Ladiesbeach /> } />
             <Route path="/Snowoman" element={<Snowoman /> } />
             <Route path="/videos" element={<Videos />} />
             <Route path="/admin-update" element={<AdminProfileUpdate />} />
+            <Route path="/admindashoboard" element={<AdminDashboard />} />
 
           </Routes>
         </div>

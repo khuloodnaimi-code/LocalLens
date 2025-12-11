@@ -12,33 +12,51 @@ const Login = () => {
 
   const handleGetStarted = () => setShowLoginForm(true);
 
-  // Hard-coded credentials
-  const hardCodedEmail = 'test@example.com';
-  const hardCodedPassword = '123456';
+  // Hardcoded users with roles
+  const hardCodedUsers = [
+    { email: "test@example.com", password: "123456", role: "user" },
+    { email: "admin@example.com", password: "admin123", role: "admin" },
+  ];
 
-
+  // On load, check if a remembered user exists
   useEffect(() => {
-    const savedEmail = localStorage.getItem("rememberedEmail");
-    if (savedEmail) {
-      setEmail(savedEmail);
+    const rememberedUser = JSON.parse(localStorage.getItem("rememberedUser"));
+    if (rememberedUser) {
+      setEmail(rememberedUser.email);
+      setPassword(rememberedUser.password);
       setRememberMe(true);
-      setShowLoginForm(true); 
+      setShowLoginForm(true);
+
+      // Redirect automatically
+      if (rememberedUser.role === "admin") navigate("/admindashoboard");
+      else navigate("/posts");
     }
-  }, []);
+  }, [navigate]);
 
   const handleLoginSubmit = (e) => {
     e.preventDefault();
 
-    if (email === hardCodedEmail && password === hardCodedPassword) {
+    // Find matching user
+    const user = hardCodedUsers.find(
+      (u) => u.email === email && u.password === password
+    );
+
+    if (user) {
       setError('');
 
+      // Save to localStorage if Remember Me is checked
       if (rememberMe) {
-        localStorage.setItem("rememberedEmail", email);
+        localStorage.setItem("rememberedUser", JSON.stringify(user));
       } else {
-        localStorage.removeItem("rememberedEmail");
+        localStorage.removeItem("rememberedUser");
       }
 
-      navigate('/posts');
+      // Redirect based on role
+      if (user.role === "admin") {
+        navigate("/admindashoboard");
+      } else {
+        navigate("/posts");
+      }
     } else {
       setError('Wrong credentials, please try again.');
     }
@@ -57,7 +75,6 @@ const Login = () => {
         <div className="loginCard">
           <h2 className="loginTitle">Login</h2>
           <form onSubmit={handleLoginSubmit} className="form">
-            
             <div className="formGroup">
               <input
                 type="email"
@@ -100,7 +117,6 @@ const Login = () => {
               <span className="linkText">Don't have an account? </span>
               <Link to="/register" className="link">Register Now</Link>
             </div>
-
           </form>
         </div>
       )}
