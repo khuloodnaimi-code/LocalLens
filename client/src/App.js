@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import Login from './components/Login';
 import Register from './components/Register';
 import Home from './components/Home';
-import Posts from './components/Posts';
+import HomePage from './components/HomePage';
 import Header from './components/Header';
 import Footer from './components/Footer';
 
@@ -41,7 +41,7 @@ function App() {
     >
       <Router>
         {/* Header only when logged in */}
-        {email && <Header />}
+        <Header />
 
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
           <Routes>
@@ -49,7 +49,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/home" element={<Home />} />
-            <Route path="/posts" element={<Posts />} />
+            <Route path="/HomePage" element={<HomePage />} />
 
             {/* ✅ Route for Explore Oman */}
             <Route path="/explore" element={<Explore />} />

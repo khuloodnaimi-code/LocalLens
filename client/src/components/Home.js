@@ -1,7 +1,7 @@
 import { Col, Container, Row } from "reactstrap";
 import User from "./User";
 
-import Posts from "./Posts";
+import HomePage from "./HomePage";
 import {useSelector} from 'react-redux';
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
@@ -24,7 +24,7 @@ const Home=()=>{
                 <Col>
                     
                     <Row>
-                        <Posts/>
+                        <HomePage/>
                     </Row>
                 </Col>
             </Row>
