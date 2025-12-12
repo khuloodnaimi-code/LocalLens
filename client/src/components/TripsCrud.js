@@ -1,90 +1,126 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { IoIosArrowBack } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
-import AlHootaCave from "../assets/AlHootaCave.jpg";
 
 const TripsCrud = () => {
   const navigate = useNavigate();
+  const [trips, setTrips] = useState([]);
 
-  // Static trips entry
-  const [trips, setTrips] = useState([
-    {
-      id: 1,
-      name: "Al Hoota Cave",
-      image: AlHootaCave,
-      price: 10,
-    },
-  ]);
+  // Fetch trips from server
+  const fetchTrips = async () => {
+    try {
+      const res = await fetch("http://localhost:5000/trips");
+      const data = await res.json();
+      setTrips(data);
+    } catch (err) {
+      console.error("Fetch trips error:", err);
+    }
+  };
 
-  // Delete
-  const deleteTrip = (id) => {
-    setTrips(trips.filter((t) => t.id !== id));
+  useEffect(() => {
+    fetchTrips();
+  }, []);
+
+  // Delete trip
+  const deleteTrip = async (id) => {
+    try {
+      await fetch(`http://localhost:5000/trips/${id}`, { method: "DELETE" });
+      fetchTrips(); // Refresh trips
+    } catch (err) {
+      console.error("Delete error:", err);
+    }
   };
 
   return (
-    <div style={styles.page}>
+    <div style={{ backgroundColor: "#AEDBBF", minHeight: "100vh", padding: "20px", fontFamily: "Arial" }}>
       {/* Back Button */}
-      <div style={styles.backBtn} onClick={() => navigate(-1)}>
+      <div style={{ cursor: "pointer", marginBottom: "10px" }} onClick={() => navigate(-1)}>
         <IoIosArrowBack size={28} />
       </div>
 
-      <h1 style={styles.title}>Trips Management</h1>
+      <h1 style={{ textAlign: "center", fontSize: "28px", color: "#2F3E2D", fontWeight: "700", marginBottom: "12px" }}>
+        Trips Management
+      </h1>
 
-      {/* Add New Place Button */}
-      <button style={styles.addBtn} onClick={() => navigate("/add-trip")}>
+      {/* Add New Trip Button */}
+      <button
+        style={{
+          display: "block",
+          margin: "0 auto",
+          marginBottom: "20px",
+          padding: "12px 20px",
+          backgroundColor: "#ffffff",
+          border: "none",
+          borderRadius: "10px",
+          fontWeight: "700",
+          fontSize: "16px",
+          cursor: "pointer",
+          boxShadow: "0 4px 10px rgba(0,0,0,0.2)",
+        }}
+        onClick={() => navigate("/add-trip")}
+      >
         + Add New Place
-      </button> 
+      </button>
 
-      {/* Trips CRUD Table */}
-      <table style={styles.table}>
+      {/* Trips Table */}
+      <table style={{ width: "100%", backgroundColor: "#fff", borderCollapse: "collapse", borderRadius: "10px", overflow: "hidden" }}>
         <thead>
-          <tr>
-            <th style={styles.th}>ID</th>
-            <th style={styles.th}>Name</th>
-            <th style={styles.th}>Image</th>
-            <th style={styles.th}>Price</th>
-            <th style={styles.th}>Update</th>
-            <th style={styles.th}>Delete</th>
+          <tr style={{ backgroundColor: "#E8F4EC" }}>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Image</th>
+            <th>Price</th>
+            <th>Description</th>
+            <th>Address</th>
+            <th>Update</th>
+            <th>Delete</th>
           </tr>
         </thead>
-
         <tbody>
           {trips.length === 0 ? (
             <tr>
-              <td colSpan="6" style={styles.noData}>
+              <td colSpan="8" style={{ padding: "20px", textAlign: "center" }}>
                 No trips found.
               </td>
             </tr>
           ) : (
-            trips.map((trip) => (
-              <tr key={trip.id}>
-                <td style={styles.td}>{trip.id}</td>
-                <td style={styles.td}>{trip.name}</td>
-                <td style={styles.td}>
-                  <img
-                    src={trip.image}
-                    alt={trip.name}
-                    style={{
-                      width: "70px",
-                      height: "50px",
-                      borderRadius: "8px",
-                      objectFit: "cover",
-                    }}
-                  />
+            trips.map((trip, idx) => (
+              <tr key={trip._id}>
+                <td>{idx + 1}</td>
+                <td>{trip.name}</td>
+                <td>
+                  <img src={trip.image} alt={trip.name} style={{ width: "70px", height: "50px", objectFit: "cover" }} />
                 </td>
-                <td style={styles.td}>{trip.price} OMR</td>
-                <td style={styles.td}>
+                <td>{trip.price} OMR</td>
+                <td>{trip.description || "-"}</td>
+                <td>{trip.address || "-"}</td>
+                <td>
                   <button
-                    style={styles.updateBtn}
-                    onClick={() => navigate(`/update-trip/${trip.id}`)}
+                    style={{
+                      padding: "6px 14px",
+                      backgroundColor: "#FFC933",
+                      border: "none",
+                      borderRadius: "6px",
+                      cursor: "pointer",
+                      fontWeight: "700",
+                    }}
+                    onClick={() => navigate(`/update-trip/${trip._id}`, { state: { trip } })}
                   >
                     Update
                   </button>
                 </td>
-                <td style={styles.td}>
+                <td>
                   <button
-                    style={styles.deleteBtn}
-                    onClick={() => deleteTrip(trip.id)}
+                    style={{
+                      padding: "6px 14px",
+                      backgroundColor: "#FF4A4A",
+                      color: "#fff",
+                      border: "none",
+                      borderRadius: "6px",
+                      cursor: "pointer",
+                      fontWeight: "700",
+                    }}
+                    onClick={() => deleteTrip(trip._id)}
                   >
                     Delete
                   </button>
@@ -96,85 +132,6 @@ const TripsCrud = () => {
       </table>
     </div>
   );
-};
-
-
-
-const styles = {
-  page: {
-    backgroundColor: "#AEDBBF",
-    minHeight: "100vh",
-    padding: "20px",
-    fontFamily: "Arial",
-  },
-  backBtn: {
-    cursor: "pointer",
-    marginBottom: "10px",
-  },
-  title: {
-    textAlign: "center",
-    fontSize: "28px",
-    color: "#2F3E2D",
-    fontWeight: "700",
-    marginBottom: "12px",
-  },
-  addBtn: {
-    display: "block",
-    margin: "0 auto",
-    marginBottom: "20px",
-    padding: "12px 20px",
-    backgroundColor: "#ffffff",
-    border: "none",
-    borderRadius: "10px",
-    fontWeight: "700",
-    fontSize: "16px",
-    cursor: "pointer",
-    boxShadow: "0 4px 10px rgba(0,0,0,0.2)",
-  },
-  table: {
-    width: "100%",
-    backgroundColor: "#fff",
-    borderCollapse: "collapse",
-    borderRadius: "10px",
-    overflow: "hidden",
-  },
-  th: {
-    padding: "14px",
-    backgroundColor: "#E8F4EC",
-    fontWeight: "700",
-    color: "#2F3E2D",
-    fontSize: "15px",
-    borderBottom: "1px solid #ddd",
-    textAlign: "left",
-  },
-  td: {
-    padding: "12px",
-    borderBottom: "1px solid #ddd",
-    fontSize: "15px",
-  },
-  updateBtn: {
-    padding: "6px 14px",
-    backgroundColor: "#FFC933",
-    border: "none",
-    borderRadius: "6px",
-    cursor: "pointer",
-    fontWeight: "700",
-  },
-  deleteBtn: {
-    padding: "6px 14px",
-    backgroundColor: "#FF4A4A",
-    color: "#fff",
-    border: "none",
-    borderRadius: "6px",
-    cursor: "pointer",
-    fontWeight: "700",
-  },
-  noData: {
-    padding: "20px",
-    textAlign: "center",
-    fontWeight: "600",
-    fontSize: "16px",
-  },
 };
 
 export default TripsCrud;

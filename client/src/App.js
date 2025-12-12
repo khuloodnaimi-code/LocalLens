@@ -2,6 +2,7 @@ import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Container } from 'reactstrap';
 import { useSelector } from 'react-redux';
+import 'leaflet/dist/leaflet.css';
 
 import Login from './components/Login';
 import Register from './components/Register';
@@ -25,7 +26,7 @@ import Snowoman from './components/Snowoman';
 import Videos from './components/Videos';
 import AdminProfileUpdate from "./components/AdminProfileUpdate";
 import AdminDashboard from './components/AdminDashboard';
-
+import TripDetails from './components/TripDetails';
 function App() {
   const email = useSelector((state) => state.users.user?.email);
 
@@ -66,6 +67,7 @@ function App() {
             <Route path="/videos" element={<Videos />} />
             <Route path="/admin-update" element={<AdminProfileUpdate />} />
             <Route path="/admindashoboard" element={<AdminDashboard />} />
+            <Route path="/trip/:id" element={<TripDetails />} />
 
           </Routes>
         </div>
