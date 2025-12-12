@@ -1,28 +1,54 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { addUser } from '../features/UserSlice';
 import { useNavigate, Link } from 'react-router-dom';
-import './Register.css'; // ✅ Import CSS file
+import './Register.css';
 
 const Register = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-
-  const dispatch = useDispatch();
-  const message = useSelector((state) => state.users.message);
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
   const navigate = useNavigate();
 
-  const handleRegister = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
+
+    // Password validation
     if (password !== confirmPassword) {
-      alert("Passwords do not match!");
+      setError("Passwords do not match!");
+      setSuccess('');
       return;
     }
-    const data = { uname: name, email, password };
-    dispatch(addUser(data));
-    navigate("/login");
+
+    try {
+      const response = await fetch("http://localhost:5000/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ uname: name, email, password, role: "user" }), // always user
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setError(data.message || "Registration failed.");
+        setSuccess('');
+        return;
+      }
+
+      setSuccess("Registration successful! Redirecting to login...");
+      setError('');
+
+      // Redirect to login after 1.5 seconds
+      setTimeout(() => {
+        navigate("/login");
+      }, 1500);
+
+    } catch (err) {
+      console.error("Register fetch error:", err);
+      setError("Server error. Please try again later.");
+      setSuccess('');
+    }
   };
 
   return (
@@ -62,8 +88,12 @@ const Register = () => {
             className="input"
             required
           />
-          <button type="submit" className="submitButton">Registeration</button>
-          {message && <p className="message">{message}</p>}
+
+          <button type="submit" className="submitButton">Register</button>
+
+          {error && <p className="error">{error}</p>}
+          {success && <p className="success">{success}</p>}
+
           <p className="loginText">
             Already have an account? <Link to="/login" className="link">Login</Link>
           </p>
