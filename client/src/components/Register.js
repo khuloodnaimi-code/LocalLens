@@ -14,7 +14,6 @@ const Register = () => {
   const handleRegister = async (e) => {
     e.preventDefault();
 
-    // Password validation
     if (password !== confirmPassword) {
       setError("Passwords do not match!");
       setSuccess('');
@@ -39,7 +38,6 @@ const Register = () => {
       setSuccess("Registration successful! Redirecting to login...");
       setError('');
 
-      // Redirect to login after 1.5 seconds
       setTimeout(() => {
         navigate("/login");
       }, 1500);

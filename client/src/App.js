@@ -2,16 +2,12 @@ import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Container } from 'reactstrap';
 import { useSelector } from 'react-redux';
-import 'leaflet/dist/leaflet.css';
-
 import Login from './components/Login';
 import Register from './components/Register';
-import Home from './components/Home';
+import Start from './components/Start';
 import HomePage from './components/HomePage';
 import Header from './components/Header';
 import Footer from './components/Footer';
-
-
 import Explore from './components/Explore';
 import BookTrip from './components/BookTrip';
 import AboutUs from './components/AboutUs';
@@ -19,17 +15,12 @@ import Faq from './components/Faq';
 import TripsCrud from './components/TripsCrud';
 import AddTrip from "./components/AddTrip";
 import UpdateTrip from "./components/UpdateTrip"
-import AgesTrip from "./components/AgesTrip";
-import Hootacave from './components/Hootacave';
-import Ladiesbeach from './components/Ladiesbeach';
-import Snowoman from './components/Snowoman';
 import Videos from './components/Videos';
-import AdminProfileUpdate from "./components/AdminProfileUpdate";
 import AdminDashboard from './components/AdminDashboard';
-import TripDetails from './components/TripDetails';
 function App() {
   const email = useSelector((state) => state.users.user?.email);
-
+ // Paths where header/footer should be hidden
+  const hideOn = ["/", "/login", "/register", "/admin", "/add-trip"];
   return (
     <Container
       fluid
@@ -41,7 +32,6 @@ function App() {
       }}
     >
       <Router>
-        {/* Header only when logged in */}
         <Header />
 
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
@@ -49,10 +39,9 @@ function App() {
             <Route path="/" element={<Login />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/home" element={<Home />} />
+            <Route path="/Start" element={<Start />} />
             <Route path="/HomePage" element={<HomePage />} />
 
-            {/* ✅ Route for Explore Oman */}
             <Route path="/explore" element={<Explore />} />
             <Route path="/book-trip" element={<BookTrip />} />
             <Route path="/about-us" element={<AboutUs />} />
@@ -60,18 +49,12 @@ function App() {
             <Route path="/trips-crud" element={<TripsCrud />} />
             <Route path="/add-trip" element={<AddTrip />} />
             <Route path="/update-trip/:id" element={<UpdateTrip />} />
-            <Route path="/ages-museum" element={<AgesTrip />} />
-            <Route path="/Hootacave" element={ <Hootacave />  } />
-            <Route path="/Ladiesbeach" element={<Ladiesbeach /> } />
-            <Route path="/Snowoman" element={<Snowoman /> } />
             <Route path="/videos" element={<Videos />} />
-            <Route path="/admin-update" element={<AdminProfileUpdate />} />
             <Route path="/admindashoboard" element={<AdminDashboard />} />
-            <Route path="/trip/:id" element={<TripDetails />} />
 
           </Routes>
         </div>
-
+  
         <Footer />
       </Router>
     </Container>

@@ -18,7 +18,7 @@ const Header = () => {
     const navigate = useNavigate();
 
     const handleLogout = () => {
-        localStorage.clear();  // clear session/token
+        localStorage.clear(); 
         navigate("/login");
     };
 
@@ -33,7 +33,7 @@ const Header = () => {
             }}
         >
             <NavbarBrand>
-                {/* <img src={Logo} width="130px" alt="Brand" /> */}
+             
             </NavbarBrand>
 
             <NavbarToggler onClick={toggle} />
@@ -41,21 +41,19 @@ const Header = () => {
             <Collapse isOpen={isOpen} navbar>
                 <Nav className="ms-auto" navbar>
 
-                    {/* HOME */}
+                  
                     <NavItem style={{ margin: "0 15px", fontSize: "20px" }}>
                         <Link to="/home" style={{ color: "#2E3A47" }}>
                             <FaHome />
                         </Link>
                     </NavItem>
 
-                    {/* PROFILE */}
                     <NavItem style={{ margin: "0 15px", fontSize: "20px" }}>
                         <Link to="/admin-update" style={{ color: "#2E3A47" }}>
                             <FaUserAlt />
                         </Link>
                     </NavItem>
 
-                    {/* LOGOUT */}
                     <NavItem
                         style={{
                             margin: "0 15px",

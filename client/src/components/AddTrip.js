@@ -1,20 +1,37 @@
 import React, { useState } from "react";
-import { IoIosArrowBack } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 
 const AddTrip = () => {
   const navigate = useNavigate();
+
   const [name, setName] = useState("");
-  const [price, setPrice] = useState("");
-  const [image, setImage] = useState("");
   const [description, setDescription] = useState("");
   const [address, setAddress] = useState("");
-  const [successMsg, setSuccessMsg] = useState("");
+  const [price, setPrice] = useState("");
+  const [lat, setLat] = useState("");
+  const [lng, setLng] = useState("");
+  const [image, setImage] = useState("");
 
-  const submitTrip = async (e) => {
+  const mapUrl = lat && lng
+    ? `https://www.google.com/maps?q=${lat},${lng}&z=15&output=embed`
+    : null;
+
+  const handleAdd = async (e) => {
     e.preventDefault();
 
-    const newTrip = { name, price, image, description, address };
+    if (!name || !description || !address || !price || !lat || !lng || !image) {
+      alert("Please fill all fields including coordinates and image URL.");
+      return;
+    }
+
+    const newTrip = {
+      name,
+      description,
+      address,
+      price,
+      image,
+      location: { lat: Number(lat), lng: Number(lng) },
+    };
 
     try {
       const res = await fetch("http://localhost:5000/trips", {
@@ -24,40 +41,44 @@ const AddTrip = () => {
       });
 
       if (res.ok) {
-        setSuccessMsg("Trip added successfully!");
-        setName("");
-        setPrice("");
-        setImage("");
-        setDescription("");
-        setAddress("");
-
-        setTimeout(() => navigate("/trips-crud"), 1000);
+        alert("Trip added successfully!");
+        navigate("/trips-crud");
       } else {
-        const data = await res.json();
-        alert("Failed to add trip: " + data.message);
+        alert("Failed to add trip.");
       }
     } catch (err) {
-      console.error("Add trip error:", err);
-      alert("Something went wrong. Try again.");
+      console.error(err);
+      alert("Error adding trip.");
     }
   };
 
   return (
-    <div className="page" style={{ padding: "20px" }}>
-      <div className="backBtn" onClick={() => navigate(-1)}>
-        <IoIosArrowBack size={28} />
-      </div>
+    <div style={{ padding: "20px" }}>
+      <h2>Add New Trip</h2>
+      <form onSubmit={handleAdd} style={{ maxWidth: "500px" }}>
+        <input type="text" value={name} onChange={e => setName(e.target.value)} placeholder="Name" style={{ width: "100%", marginBottom: "10px" }} />
+        <textarea value={description} onChange={e => setDescription(e.target.value)} placeholder="Description" style={{ width: "100%", marginBottom: "10px" }} />
+        <input type="text" value={address} onChange={e => setAddress(e.target.value)} placeholder="Address" style={{ width: "100%", marginBottom: "10px" }} />
+        <input type="number" value={price} onChange={e => setPrice(e.target.value)} placeholder="Price" style={{ width: "100%", marginBottom: "10px" }} />
+        <input type="number" value={lat} onChange={e => setLat(e.target.value)} placeholder="Latitude" style={{ width: "100%", marginBottom: "10px" }} />
+        <input type="number" value={lng} onChange={e => setLng(e.target.value)} placeholder="Longitude" style={{ width: "100%", marginBottom: "10px" }} />
+        <input type="text" value={image} onChange={e => setImage(e.target.value)} placeholder="Image URL" style={{ width: "100%", marginBottom: "10px" }} />
 
-      <h1>Add New Trip</h1>
-      {successMsg && <p style={{ color: "green" }}>{successMsg}</p>}
+        {image && (
+          <div style={{ marginBottom: "10px" }}>
+            <h4>Image Preview:</h4>
+            <img src={image} alt={name} style={{ width: "100%", maxHeight: "250px", objectFit: "cover", borderRadius: "8px" }} />
+          </div>
+        )}
 
-      <form onSubmit={submitTrip} style={{ display: "flex", flexDirection: "column", gap: "10px", maxWidth: "400px" }}>
-        <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="Trip Name" required />
-        <input type="number" value={price} onChange={(e) => setPrice(e.target.value)} placeholder="Price" required />
-        <input type="text" value={image} onChange={(e) => setImage(e.target.value)} placeholder="Image URL" required />
-        <textarea value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Description" rows={3} />
-        <input type="text" value={address} onChange={(e) => setAddress(e.target.value)} placeholder="Address" />
-        <button type="submit">Add Trip</button>
+        {mapUrl && (
+          <div style={{ marginBottom: "10px" }}>
+            <h4>Map Preview:</h4>
+            <iframe title="Trip Location" width="100%" height="250" style={{ border: 0, borderRadius: "8px" }} loading="lazy" allowFullScreen src={mapUrl}></iframe>
+          </div>
+        )}
+
+        <button type="submit" style={{ padding: "10px 20px" }}>Add Trip</button>
       </form>
     </div>
   );
