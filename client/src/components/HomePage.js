@@ -1,5 +1,5 @@
 import React from "react";
-import { FaArrowRight } from "react-icons/fa";
+import { FaArrowRight, FaArrowLeft } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
 const HomePage = () => {
@@ -10,13 +10,16 @@ const HomePage = () => {
   return (
     <div style={{ ...styles.page, backgroundImage: `url(${bgImage})` }}>
       <div style={styles.overlay} />
+
+
       <div style={styles.menuContainer}>
         <Button text="Explore Oman" onClick={() => navigate("/explore")} />
-        <Button text="Book tour trip" onClick={() => navigate("/book-trip")} />
+        <Button text="Check Available tour trip" onClick={() => navigate("/book-trip")} />
         <Button text="Explore Oman In Motion" onClick={() => navigate("/videos")} />
         <Button text="About Us" onClick={() => navigate("/about-us")} />
         <Button text="FAQ" onClick={() => navigate("/faq")} />
       </div>
+
       <div style={styles.footer}>
         <h1 style={styles.footerTitle}>DISCOVER OMAN</h1>
         <h2 style={styles.footerSubtitle}>WITH LOCALENS</h2>
@@ -50,6 +53,21 @@ const styles = {
     inset: 0,
     background: "rgba(255, 255, 255, 0.45)",
     backdropFilter: "blur(2px)",
+  },
+
+  backButton: {
+    position: "absolute",
+    top: "20px",
+    left: "20px",
+    background: "rgba(255,255,255,0.7)",
+    padding: "10px 15px",
+    borderRadius: "12px",
+    display: "flex",
+    alignItems: "center",
+    fontWeight: "600",
+    cursor: "pointer",
+    zIndex: 2,
+    boxShadow: "0 4px 6px rgba(0,0,0,0.15)",
   },
 
   menuContainer: {

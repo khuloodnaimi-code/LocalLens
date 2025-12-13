@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './Login.css';
 
-// ⭐ Optional: Animated Pin Logo Component
 const AnimatedPin = () => {
   return (
     <div style={{ width: "70px", margin: "0 auto", marginBottom: "10px" }}>
@@ -49,7 +48,6 @@ const Login = () => {
 
   const handleGetStarted = () => setShowLoginForm(true);
 
-  // On load, check if a remembered user exists
   useEffect(() => {
     const rememberedUser = JSON.parse(localStorage.getItem("rememberedUser"));
     if (rememberedUser) {
@@ -111,7 +109,6 @@ const Login = () => {
         <div className="loginCard">
           <h2 className="loginTitle">Login</h2>
 
-          {/* ⭐ Animated Pin Logo */}
           <AnimatedPin />
 
           <form onSubmit={handleLoginSubmit} className="form">

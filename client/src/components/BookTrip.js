@@ -28,7 +28,6 @@ const BookTrip = () => {
 
   return (
     <div className="page">
-      {/* Back Button */}
       <div className="backBtn" onClick={() => navigate(-1)}>
         <IoIosArrowBack size={28} color="#000" />
       </div>
@@ -65,7 +64,6 @@ const BookTrip = () => {
           </div>
         </div>
 
-        {/* Transportation Option */}
         <div className="transport">
           <input
             type="checkbox"
@@ -75,7 +73,6 @@ const BookTrip = () => {
           <span>Transportation included (+2 OMR)</span>
         </div>
 
-        {/* Book Button */}
         <button className="bookBtn" onClick={handleBooking}>
           Book
         </button>

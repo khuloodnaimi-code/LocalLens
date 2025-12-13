@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { IoIosArrowBack } from "react-icons/io";
 
 const Explore = () => {
-  const navigate = useNavigate();
   const [trips, setTrips] = useState([]);
+  const navigate = useNavigate();
 
-  // Fetch trips from server
   const fetchTrips = async () => {
     try {
       const res = await fetch("http://localhost:5000/trips");
@@ -20,44 +20,97 @@ const Explore = () => {
     fetchTrips();
   }, []);
 
+  const openInGoogleMaps = (lat, lng) => {
+    if (lat && lng) {
+      window.open(`https://www.google.com/maps?q=${lat},${lng}`, "_blank");
+    }
+  };
+
   return (
-    <div style={styles.page}>
+    <div className="page" style={styles.page}>
+
+      <div className="backBtn" style={styles.backBtn} onClick={() => navigate(-1)}>
+        <IoIosArrowBack size={28} color="#000" />
+      </div>
+
       <h2 style={styles.heading}>Explore Places in Oman</h2>
 
       <div style={styles.grid}>
         {trips.length === 0 ? (
           <p>No trips available.</p>
         ) : (
-          trips.map((trip) => (
-            <div key={trip._id} style={styles.card}>
-              <img src={trip.image} alt={trip.name} style={styles.image} />
-              <div style={styles.cardContent}>
-                <h3 style={styles.title}>{trip.name}</h3>
-                <p style={styles.price}>{trip.price} OMR</p>
-                {trip.description && <p style={styles.description}>{trip.description}</p>}
-                {trip.address && <p style={styles.address}>{trip.address}</p>}
+          trips.map((trip) => {
+            const hasLocation = trip.location?.lat && trip.location?.lng;
+            const mapUrl = hasLocation
+              ? `https://www.google.com/maps?q=${trip.location.lat},${trip.location.lng}&z=15&output=embed`
+              : null;
+
+            return (
+              <div key={trip._id} style={styles.card}>
+                {trip.image && <img src={trip.image} alt={trip.name} style={styles.image} />}
+                <div style={styles.cardContent}>
+                  <h3 style={styles.title}>{trip.name}</h3>
+                  <p style={styles.price}>{trip.price} OMR</p>
+                  {trip.description && <p style={styles.description}>{trip.description}</p>}
+                  {trip.address && <p style={styles.address}>{trip.address}</p>}
+
+                 
+                  {hasLocation && (
+                    <div style={{ marginTop: "10px" }}>
+                      <iframe
+                        title={`Map of ${trip.name}`}
+                        width="100%"
+                        height="200"
+                        style={{ border: 0, borderRadius: "8px", cursor: "pointer" }}
+                        loading="lazy"
+                        allowFullScreen
+                        src={mapUrl}
+                        onClick={() => openInGoogleMaps(trip.location.lat, trip.location.lng)}
+                      ></iframe>
+                      <button
+                        onClick={() => openInGoogleMaps(trip.location.lat, trip.location.lng)}
+                        style={{
+                          marginTop: "5px",
+                          padding: "5px 10px",
+                          cursor: "pointer",
+                        }}
+                      >
+                        Open in Google Maps
+                      </button>
+                    </div>
+                  )}
+                </div>
               </div>
-            </div>
-          ))
+            );
+          })
         )}
       </div>
     </div>
   );
 };
 
-/* ---------------------- STYLES ---------------------- */
 const styles = {
   page: {
     width: "100%",
     minHeight: "100vh",
     backgroundColor: "#AEDBBF",
     padding: "20px",
+    position: "relative",
+  },
+  backBtn: {
+    position: "absolute",
+    top: "20px",
+    left: "20px",
+    padding: "5px",
+    cursor: "pointer",
+    zIndex: 2,
   },
   heading: {
     fontSize: "22px",
     fontWeight: "600",
     color: "#2F3E2D",
     marginBottom: "20px",
+    textAlign: "center",
   },
   grid: {
     display: "grid",

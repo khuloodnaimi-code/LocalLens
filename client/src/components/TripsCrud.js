@@ -6,7 +6,6 @@ const TripsCrud = () => {
   const navigate = useNavigate();
   const [trips, setTrips] = useState([]);
 
-  // Fetch trips from server
   const fetchTrips = async () => {
     try {
       const res = await fetch("http://localhost:5000/trips");
@@ -21,11 +20,11 @@ const TripsCrud = () => {
     fetchTrips();
   }, []);
 
-  // Delete trip
+
   const deleteTrip = async (id) => {
     try {
       await fetch(`http://localhost:5000/trips/${id}`, { method: "DELETE" });
-      fetchTrips(); // Refresh trips
+      fetchTrips(); 
     } catch (err) {
       console.error("Delete error:", err);
     }
@@ -33,7 +32,7 @@ const TripsCrud = () => {
 
   return (
     <div style={{ backgroundColor: "#AEDBBF", minHeight: "100vh", padding: "20px", fontFamily: "Arial" }}>
-      {/* Back Button */}
+  
       <div style={{ cursor: "pointer", marginBottom: "10px" }} onClick={() => navigate(-1)}>
         <IoIosArrowBack size={28} />
       </div>
@@ -42,7 +41,7 @@ const TripsCrud = () => {
         Trips Management
       </h1>
 
-      {/* Add New Trip Button */}
+    
       <button
         style={{
           display: "block",
@@ -62,7 +61,6 @@ const TripsCrud = () => {
         + Add New Place
       </button>
 
-      {/* Trips Table */}
       <table style={{ width: "100%", backgroundColor: "#fff", borderCollapse: "collapse", borderRadius: "10px", overflow: "hidden" }}>
         <thead>
           <tr style={{ backgroundColor: "#E8F4EC" }}>
@@ -98,7 +96,7 @@ const TripsCrud = () => {
                   <button
                     style={{
                       padding: "6px 14px",
-                      backgroundColor: "#FFC933",
+                      backgroundColor: "#2b9116ff",
                       border: "none",
                       borderRadius: "6px",
                       cursor: "pointer",
@@ -113,7 +111,7 @@ const TripsCrud = () => {
                   <button
                     style={{
                       padding: "6px 14px",
-                      backgroundColor: "#FF4A4A",
+                      backgroundColor: "#912222ff",
                       color: "#fff",
                       border: "none",
                       borderRadius: "6px",
