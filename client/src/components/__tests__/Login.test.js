@@ -1,20 +1,25 @@
-import { render, screen } from "@testing-library/react";
-import { MemoryRouter } from "react-router-dom";
+import { render } from "@testing-library/react";
 import { Provider } from "react-redux";
-import { store } from "../../store";
+import { MemoryRouter } from "react-router-dom";
+import { createMockStore, userInitialState, routerFutureFlags } from "./testHelpers";
+import userReducer from "../../features/UserSlice";
 import Login from "../Login";
 
 describe("Login Component - LocalLens", () => {
-  test("renders login page elements", () => {
-    render(
-      <Provider store={store}>
-        <MemoryRouter>
+  test("matches the Login snapshot", () => {
+    const { container } = render(
+      <Provider store={createMockStore()}>
+        <MemoryRouter future={routerFutureFlags}>
           <Login />
         </MemoryRouter>
       </Provider>
     );
+    expect(container).toMatchSnapshot();
+  });
 
-    expect(screen.getByText(/local lens/i)).toBeInTheDocument();
-    expect(screen.getByText(/get started/i)).toBeInTheDocument();
+  test("uses the users initial state", () => {
+    expect(userReducer(undefined, { type: undefined })).toEqual(
+      userInitialState
+    );
   });
 });
