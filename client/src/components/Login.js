@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import './Login.css';
 
 const AnimatedPin = () => {
@@ -30,8 +31,11 @@ const AnimatedPin = () => {
       <div className="pin">
         <div className="pulse"></div>
         <svg viewBox="0 0 24 34" xmlns="http://www.w3.org/2000/svg">
-          <path fill="#e63946" d="M12 0C7.03 0 3 4.03 3 9c0 6.75 8.9 16.62 8.9 16.62.22.24.58.24.8 0C12.1 25.62 21 15.75 21 9c0-4.97-4.03-9-9-9z"/>
-          <circle cx="12" cy="9" r="3.6" fill="#fff" opacity="0.95"/>
+          <path
+            fill="#e63946"
+            d="M12 0C7.03 0 3 4.03 3 9c0 6.75 8.9 16.62 8.9 16.62.22.24.58.24.8 0C12.1 25.62 21 15.75 21 9c0-4.97-4.03-9-9-9z"
+          />
+          <circle cx="12" cy="9" r="3.6" fill="#fff" opacity="0.95" />
         </svg>
       </div>
     </div>
@@ -42,6 +46,7 @@ const Login = () => {
   const [showLoginForm, setShowLoginForm] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
@@ -97,59 +102,82 @@ const Login = () => {
   };
 
   return (
-    <div className="container">
+    <div className="container d-flex justify-content-center align-items-center" style={{ minHeight: "80vh" }}>
       {!showLoginForm ? (
-        <div className="landingContent">
+        <div className="text-center">
           <h1 className="landingTitle">Local Lens</h1>
-          <button className="getStartedButton" onClick={handleGetStarted}>
+          <button className="btn btn-danger px-4 py-2 mt-3" onClick={handleGetStarted}>
             Get started
           </button>
         </div>
       ) : (
-        <div className="loginCard">
-          <h2 className="loginTitle">Login</h2>
+        <div className="card shadow p-4" style={{ width: "100%", maxWidth: "380px" }}>
+          <h2 className="text-center mb-3">Login</h2>
 
           <AnimatedPin />
 
-          <form onSubmit={handleLoginSubmit} className="form">
-            <div className="formGroup">
+          <form onSubmit={handleLoginSubmit}>
+         
+            <div className="mb-3">
               <input
                 type="email"
+                className="form-control"
+                placeholder="Email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="Email"
-                className="input"
                 required
               />
             </div>
 
-            <div className="formGroup">
+          
+            <div className="mb-3 position-relative">
               <input
-                type="password"
+                type={showPassword ? "text" : "password"}
+                className="form-control"
+                placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="Password"
-                className="input"
                 required
               />
+
+              <span
+                onClick={() => setShowPassword(!showPassword)}
+                style={{
+                  position: "absolute",
+                  right: "12px",
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                  cursor: "pointer",
+                  color: "#6c757d"
+                }}
+              >
+                {showPassword ? <FaEyeSlash /> : <FaEye />}
+              </span>
             </div>
 
-            <div className="formGroup rememberMe">
+           
+            <div className="form-check mb-3">
               <input
+                className="form-check-input"
                 type="checkbox"
                 checked={rememberMe}
                 onChange={(e) => setRememberMe(e.target.checked)}
+                id="rememberMe"
               />
-              <label>Remember Me</label>
+              <label className="form-check-label" htmlFor="rememberMe">
+                Remember Me
+              </label>
             </div>
 
-            {error && <p className="error">{error}</p>}
+            {error && <p className="text-danger text-center">{error}</p>}
 
-            <button type="submit" className="submitButton">Login</button>
+            <button type="submit" className="btn btn-danger w-100">
+              Login
+            </button>
 
-            <div className="registerLink">
-              <span className="linkText">Don't have an account? </span>
-              <Link to="/register" className="link">Register Now</Link>
+            <div className="text-center mt-3">
+              <span>Don't have an account? </span>
+              <Link to="/register">Register Now</Link>
             </div>
           </form>
         </div>

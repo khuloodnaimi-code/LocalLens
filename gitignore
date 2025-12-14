@@ -1,27 +1,37 @@
-# Ignore node_modules in client and server
+# Node modules
+node_modules/
 client/node_modules/
 server/node_modules/
 
-# Testing
-/coverage
-
-# Production builds
+# Build and dist folders
 client/build/
 server/dist/
+build/
+dist/
 
-# Misc
+# Test coverage
+coverage/
+
+# Environment files
+.env*
+
+# System files
 .DS_Store
-.env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+Thumbs.db
 
-# npm / yarn logs
+# Logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+*.log
+
+# Editor folders
+.vscode/
 
 # Yarn Plug’n’Play
 /.pnp
 .pnp.js
+
+# Misc
+*.tgz
+*.swp
