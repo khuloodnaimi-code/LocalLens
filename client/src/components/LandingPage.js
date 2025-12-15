@@ -8,7 +8,7 @@ const LandingPage = () => {
   return (
     <div className="landing-container">
 
-      {/* Dark overlay for better readability */}
+      
       <div className="overlay"></div>
 
       <div className="landing-content">
