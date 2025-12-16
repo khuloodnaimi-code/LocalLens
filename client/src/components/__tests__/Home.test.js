@@ -1,15 +1,25 @@
-import { render, screen } from "@testing-library/react";
+import { render } from "@testing-library/react";
+import { Provider } from "react-redux";
 import { MemoryRouter } from "react-router-dom";
+import { createMockStore, userInitialState, routerFutureFlags } from "./testHelpers";
+import userReducer from "../../features/UserSlice";
 import HomePage from "../HomePage";
 
 describe("Home Page - LocalLens", () => {
-  test("renders home content", () => {
-    render(
-      <MemoryRouter>
-        <HomePage />
-      </MemoryRouter>
+  test("matches the HomePage snapshot", () => {
+    const { container } = render(
+      <Provider store={createMockStore()}>
+        <MemoryRouter future={routerFutureFlags}>
+          <HomePage />
+        </MemoryRouter>
+      </Provider>
     );
+    expect(container).toMatchSnapshot();
+  });
 
-    expect(screen.getByText(/local/i)).toBeInTheDocument();
+  test("uses the users initial state", () => {
+    expect(userReducer(undefined, { type: undefined })).toEqual(
+      userInitialState
+    );
   });
 });

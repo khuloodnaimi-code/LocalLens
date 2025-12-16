@@ -19,7 +19,6 @@ import Videos from './components/Videos';
 import AdminDashboard from './components/AdminDashboard';
 function App() {
   const email = useSelector((state) => state.users.user?.email);
- // Paths where header/footer should be hidden
   const hideOn = ["/", "/login", "/register", "/admin", "/add-trip"];
   return (
     <Container
