@@ -10,11 +10,10 @@ import "./BookTrip.css";
 
 const BookTrip = () => {
   const navigate = useNavigate();
-
   const [showMessage, setShowMessage] = useState(false);
   const [includeTransport, setIncludeTransport] = useState(false);
 
-  // trip details
+
   const basePrice = 15;
   const transportPrice = 2;
   const tripDate = "Saturday, 24 April";
@@ -50,7 +49,7 @@ const BookTrip = () => {
         <div className="iconRow">
           <div className="iconBox">
             <GiMoneyStack size={22} />
-            <span>15 OMR</span>
+            <span>{basePrice} OMR</span>
           </div>
 
           <div className="iconBox">
@@ -70,14 +69,13 @@ const BookTrip = () => {
             checked={includeTransport}
             onChange={(e) => setIncludeTransport(e.target.checked)}
           />
-          <span>Transportation included (+2 OMR)</span>
+          <span>Transportation included (+{transportPrice} OMR)</span>
         </div>
 
         <button className="bookBtn" onClick={handleBooking}>
           Book
         </button>
 
-     
         <AnimatePresence>
           {showMessage && (
             <motion.div

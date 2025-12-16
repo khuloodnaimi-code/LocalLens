@@ -1,16 +1,25 @@
-import { render, screen } from "@testing-library/react";
+import { render } from "@testing-library/react";
+import { Provider } from "react-redux";
 import { MemoryRouter } from "react-router-dom";
+import { createMockStore, userInitialState, routerFutureFlags } from "./testHelpers";
+import userReducer from "../../features/UserSlice";
 import Header from "../Header";
 
 describe("Header Component - LocalLens", () => {
-  test("renders navigation links", () => {
-    render(
-      <MemoryRouter>
-        <Header />
-      </MemoryRouter>
+  test("matches the Header snapshot", () => {
+    const { container } = render(
+      <Provider store={createMockStore()}>
+        <MemoryRouter future={routerFutureFlags}>
+          <Header />
+        </MemoryRouter>
+      </Provider>
     );
+    expect(container).toMatchSnapshot();
+  });
 
-    const links = screen.getAllByRole("link");
-    expect(links.length).toBeGreaterThan(0);
+  test("uses the users initial state", () => {
+    expect(userReducer(undefined, { type: undefined })).toEqual(
+      userInitialState
+    );
   });
 });

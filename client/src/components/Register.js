@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import './Register.css';
 
 const Register = () => {
@@ -7,6 +8,8 @@ const Register = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const navigate = useNavigate();
@@ -24,7 +27,12 @@ const Register = () => {
       const response = await fetch("http://localhost:5000/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ uname: name, email, password, role: "user" }), // always user
+        body: JSON.stringify({
+          uname: name,
+          email,
+          password,
+          role: "user"
+        }),
       });
 
       const data = await response.json();
@@ -35,7 +43,7 @@ const Register = () => {
         return;
       }
 
-      setSuccess("Registration successful! Redirecting to login...");
+      setSuccess("Registration successful!");
       setError('');
 
       setTimeout(() => {
@@ -50,51 +58,96 @@ const Register = () => {
   };
 
   return (
-    <div className="container">
-      <div className="registerCard">
-        <h2 className="registerTitle">Registration</h2>
-        <form onSubmit={handleRegister} className="form">
-          <input
-            type="text"
-            placeholder="Enter Your Name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            className="input"
-            required
-          />
-          <input
-            type="email"
-            placeholder="Enter Your Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="input"
-            required
-          />
-          <input
-            type="password"
-            placeholder="Create a Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="input"
-            required
-          />
-          <input
-            type="password"
-            placeholder="Confirm Password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            className="input"
-            required
-          />
+    <div className="container d-flex justify-content-center align-items-center" style={{ minHeight: "80vh" }}>
+      <div className="card shadow p-4" style={{ width: "100%", maxWidth: "420px" }}>
+        <h2 className="text-center mb-4">Create Account</h2>
 
-          <button type="submit" className="submitButton">Register</button>
+        <form onSubmit={handleRegister}>
+          
+          <div className="mb-3">
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Enter your name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+            />
+          </div>
 
-          {error && <p className="error">{error}</p>}
-          {success && <p className="success">{success}</p>}
+         
+          <div className="mb-3">
+            <input
+              type="email"
+              className="form-control"
+              placeholder="Enter your email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
 
-          <p className="loginText">
-            Already have an account? <Link to="/login" className="link">Login</Link>
-          </p>
+         
+          <div className="mb-3 position-relative">
+            <input
+              type={showPassword ? "text" : "password"}
+              className="form-control"
+              placeholder="Create password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+            <span
+              onClick={() => setShowPassword(!showPassword)}
+              style={{
+                position: "absolute",
+                right: "12px",
+                top: "50%",
+                transform: "translateY(-50%)",
+                cursor: "pointer",
+                color: "#6c757d"
+              }}
+            >
+              {showPassword ? <FaEyeSlash /> : <FaEye />}
+            </span>
+          </div>
+
+         
+          <div className="mb-3 position-relative">
+            <input
+              type={showConfirmPassword ? "text" : "password"}
+              className="form-control"
+              placeholder="Confirm password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              required
+            />
+            <span
+              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+              style={{
+                position: "absolute",
+                right: "12px",
+                top: "50%",
+                transform: "translateY(-50%)",
+                cursor: "pointer",
+                color: "#6c757d"
+              }}
+            >
+              {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
+            </span>
+          </div>
+
+          {error && <p className="text-danger text-center">{error}</p>}
+          {success && <p className="text-success text-center">{success}</p>}
+
+          <button type="submit" className="btn btn-danger w-100 mt-2">
+            Register
+          </button>
+
+          <div className="text-center mt-3">
+            <span>Already have an account? </span>
+            <Link to="/login">Login</Link>
+          </div>
         </form>
       </div>
     </div>
