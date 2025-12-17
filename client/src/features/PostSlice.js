@@ -3,7 +3,7 @@ import axios from 'axios';
 
 export const getPosts=createAsyncThunk("posts/getPosts",async()=>{
     try{
-        const response=await axios.get("http://localhost:5000/showPosts");
+        const response=await axios.get("https://locallens-2.onrender.com/showPosts");
         return response.data;
     }
     catch(error){
@@ -13,7 +13,7 @@ export const getPosts=createAsyncThunk("posts/getPosts",async()=>{
 
 export const savePost=createAsyncThunk("posts/savePost",async(pdata)=>{
     try{
-        const response=await axios.post("http://localhost:5000/savePost",pdata);
+        const response=await axios.post("https://locallens-2.onrender.com/savePost",pdata);
         return response.data.message;
     }
     catch(error){
@@ -61,3 +61,4 @@ export const PostSlice=createSlice({
     }
 });
 export default PostSlice.reducer;
+
