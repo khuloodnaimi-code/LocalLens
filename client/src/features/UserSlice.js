@@ -3,7 +3,7 @@ import axios from 'axios';
 
 export const getUser=createAsyncThunk("users/getUser",async(udata)=>{
     try{
-        const response=await axios.post("https://locallens-2.onrender.com/login",udata);
+        const response=await axios.post("https://locallens-55.onrender.com/login",udata);
         return response.data;
     }
     catch(error){
@@ -13,7 +13,7 @@ export const getUser=createAsyncThunk("users/getUser",async(udata)=>{
 
 export const addUser=createAsyncThunk("users/addUser",async(udata)=>{
     try{
-        const response=await axios.post("https://locallens-2.onrender.com/register",udata);
+        const response=await axios.post("https://locallens-55.onrender.com/register",udata);
         return response.data.message;
     }
     catch(error){
@@ -62,5 +62,6 @@ export const UserSlice=createSlice({
     }
 });
 export default UserSlice.reducer;
+
 
 
